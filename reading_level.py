@@ -1,3 +1,5 @@
+import os
+import sys
 import textstat
 
 def calculate_reading_level_gunning_fog(text_sample):
@@ -61,31 +63,56 @@ def interpret_reading_ease_score(score):
     else:
         return 'Very Easy', '4th to 5th grade'
 
-# read the text file
-with open('text_sample.txt', 'r') as file:
-    text_sample = file.read()
+def main():
+    filename = 'text_sample.txt'
 
-# Gunning Fog score
-gunning_fog_index = calculate_reading_level_gunning_fog(text_sample)
+    # Check if file exists
+    if not os.path.exists(filename):
+        print(f"Error: The file {filename} does not exist.")
+        sys.exit()
 
-print('High School')
-print('Gunning Fog Index: ', round(gunning_fog_index), 'th grade', sep='')
-print()
+    # Check if file is not empty
+    if os.path.getsize(filename) == 0:
+        print(f"Error: The file {filename} is empty.")
+        sys.exit()
 
-# Flesch Reading Ease score
-score = calculate_reading_level_flesch(text_sample)
-difficulty, grade_level = interpret_reading_ease_score(score)
+    # Read the file
+    with open(filename, 'r') as file:
+        text_sample = file.read()
 
-print('Middle School')
-print('Flesch Reading Ease Score:', score)
-print('Difficulty:', difficulty)
-print('Flesch Grade Level:', grade_level)
-print()
+    # Check if text contains any sentences
+    if textstat.sentence_count(text_sample) == 0:
+        print("Error: The text does not contain any sentences.")
+        sys.exit()
 
-# Power Sumner Kearl score
-grade_level, reading_age = calculate_reading_level_psk(text_sample)
+    # Check if text contains any words
+    if textstat.lexicon_count(text_sample) == 0:
+        print("Error: The text does not contain any words.")
+        sys.exit()
 
-print('Elementary School')
-print('Power Sumner Kearl Grade Level:', round(grade_level))
-print('Reading Age:', round(reading_age))
-
+    # Gunning Fog score
+    gunning_fog_index = calculate_reading_level_gunning_fog(text_sample)
+    
+    print('High School')
+    print('Gunning Fog Index: ', round(gunning_fog_index), 'th grade', sep='')
+    print()
+    
+    # Flesch Reading Ease score
+    score = calculate_reading_level_flesch(text_sample)
+    difficulty, grade_level = interpret_reading_ease_score(score)
+    
+    print('Middle School')
+    print('Flesch Reading Ease Score:', score)
+    print('Difficulty:', difficulty)
+    print('Flesch Grade Level:', grade_level)
+    print()
+    
+    # Power Sumner Kearl score
+    grade_level, reading_age = calculate_reading_level_psk(text_sample)
+    
+    print('Elementary School')
+    print('Power Sumner Kearl Grade Level:', round(grade_level))
+    print('Reading Age:', round(reading_age))
+   
+if __name__ == "__main__":
+    main()
