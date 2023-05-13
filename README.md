@@ -1,6 +1,6 @@
 # Reading Level Analysis Tool
 
-This is a Python script that calculates the reading level of a text file using three different methods: The Flesch Reading Ease Score, The Power Sumner Kearl Formula, and the Gunning Fog Index. 
+This is a Python script that calculates the reading level of a text file using three different methods: The Gunning Fog Index, The Flesch Reading Ease Score, and the The Power Sumner Kearl Formula. 
 
 ## Dependencies
 
