@@ -24,9 +24,9 @@ python3 reading_level.py
 
 The script will read the text from `text_sample.txt` and calculate the reading level according to each of the three methods. It will then print out the results:
 
+- The Gunning Fog Index, rounded to the nearest whole number.
 - The Flesch Reading Ease Score, along with the corresponding difficulty level and grade level.
 - The Power Sumner Kearl grade level and reading age, rounded to the nearest whole number.
-- The Gunning Fog Index, rounded to the nearest whole number.
 
 ## Note
 
