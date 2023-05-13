@@ -39,7 +39,7 @@ def calculate_reading_level_psk(text_sample):
     num_syllables = textstat.syllable_count(text_sample)
     # calculate x and y as per the Power Sumner Kearl Formula
     x = num_words / num_sentences
-    y = num_syllables
+    y = num_syllables / num_words
     # calculate z
     z = (x * 0.0778) + (y * 0.0455)
     # calculate grade level and reading age
