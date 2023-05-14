@@ -36,14 +36,16 @@ def calculate_reading_level_psk(text_sample):
     num_words = textstat.lexicon_count(text_sample)
     # get number of syllables
     num_syllables = textstat.syllable_count(text_sample)
-    # calculate x and y as per the Power Sumner Kearl Formula
-    x = num_words / num_sentences
-    y = num_syllables / num_words
-    # calculate z
-    z = (x * 0.0778) + (y * 0.0455)
-    # calculate grade level and reading age
-    grade_level = z - 2.2029
-    reading_age = z + 2.7971
+    # calculate Average Sentence Length
+    ASL = num_words / num_sentences
+    # calculate Number of Syllables
+    NS = num_syllables / num_words * 100
+    # calculate grade level as per the Power Sumner Kearl Formula
+    grade_level = 0.0778 * ASL + 0.0455 * NS - 2.2029
+    # ensure the grade level is not less than 0
+    grade_level = max(grade_level, 0)
+    # calculate reading age
+    reading_age = 0.0778 * ASL + 0.0455 * NS + 2.7971
     return grade_level, reading_age
 
 def interpret_reading_ease_score(score):
