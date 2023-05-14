@@ -1,6 +1,5 @@
-import os
-import sys
 import textstat
+from pathlib import Path
 
 def calculate_reading_level_gunning_fog(text_sample):
     # get number of sentences
@@ -64,31 +63,27 @@ def interpret_reading_ease_score(score):
         return 'Very Easy', '4th to 5th grade'
 
 def main():
-    filename = 'text_sample.txt'
+    filename = Path('text_sample.txt')
 
     # Check if file exists
-    if not os.path.exists(filename):
-        print(f"Error: The file {filename} does not exist.")
-        sys.exit()
+    if not filename.exists():
+        raise FileNotFoundError(f"The file {filename} does not exist.")
 
     # Check if file is not empty
-    if os.path.getsize(filename) == 0:
-        print(f"Error: The file {filename} is empty.")
-        sys.exit()
+    if filename.stat().st_size == 0:
+        raise ValueError(f"The file {filename} is empty.")
 
     # Read the file
-    with open(filename, 'r') as file:
+    with filename.open('r') as file:
         text_sample = file.read()
 
     # Check if text contains any sentences
     if textstat.sentence_count(text_sample) == 0:
-        print("Error: The text does not contain any sentences.")
-        sys.exit()
+        raise ValueError("The text does not contain any sentences.")
 
     # Check if text contains any words
     if textstat.lexicon_count(text_sample) == 0:
-        print("Error: The text does not contain any words.")
-        sys.exit()
+        raise ValueError("The text does not contain any words.")
 
     # Gunning Fog score
     gunning_fog_index = calculate_reading_level_gunning_fog(text_sample)
@@ -115,4 +110,7 @@ def main():
     print('Reading Age:', round(reading_age))
    
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except (FileNotFoundError, ValueError) as e:
+        print(e)
